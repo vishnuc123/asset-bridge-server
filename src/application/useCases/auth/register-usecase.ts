@@ -28,11 +28,11 @@ export class RegisterUseCase implements IRegisterUseCase {
             throw new AppError(AUTH_ERROR_MESSAGES.userExist, HttpStatusCode.BAD_REQUEST)
         }
 
-        const tempUserId = `temp:signup:${uuidV4}`
+        const tempUserId = `temp:signup:${uuidV4()}`
         const existingOtp = await this.redisService.getOtp(tempUserId, "signup")
-        if (existingOtp) {
-            throw new AppError(AUTH_ERROR_MESSAGES.otpExist, HttpStatusCode.BAD_REQUEST)
-        }
+        // if (existingOtp) {
+        //     throw new AppError(AUTH_ERROR_MESSAGES.otpExist, HttpStatusCode.BAD_REQUEST)
+        // }
 
         const newOtp = this.authService.generateOtp(6)
         const hashedPass = await this.authService.hashPassword(userData.password)

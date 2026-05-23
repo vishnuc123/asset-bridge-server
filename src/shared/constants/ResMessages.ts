@@ -9,4 +9,5 @@ export const AUTH_RES_MESSAGES = {
     resetPass: 'Password updated successfully',
     otp: 'OTP sent to email. Please verify to complete registration',
     update: 'User updated successfully',
+    signup:"user signup successfully"
 }

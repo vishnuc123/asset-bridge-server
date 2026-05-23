@@ -2,6 +2,7 @@ import type { TRole, TStatus } from "../../shared/types/AuthTypes";
 import type { TKycStatus } from "../../shared/types/commonTypes";
 
 export interface IUser {
+    id:string,
     firstName: string,
     lastName: string,
     email: string,

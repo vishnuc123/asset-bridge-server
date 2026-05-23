@@ -4,6 +4,7 @@ import { Tokens } from "../../shared/constants/Tokens";
 import type { Authcontroller } from "../controllers/auth-controller";
 import { validate } from "../middlewares/validate";
 import { signupSchema } from "../../shared/validations/signup-schema";
+import { authenticateUser } from "../middlewares/AuthenticateUser";
 
 @injectable()
 export class AuthRoutes extends BaseRoute {
@@ -13,7 +14,8 @@ export class AuthRoutes extends BaseRoute {
     protected initRoute(): void {
         this.router
         .post("/signup",validate(signupSchema),(req,res,next) =>this.authcontroller.register(req,res,next))
-        // .post("/verify-otp",(req,res,next) => this.authcontroller.)
+        .post("/verify-otp",(req,res,next) => this.authcontroller.verifyOtp(req,res,next))
+        .post("/login",(req,res,next) => this.authcontroller.Login(req,res,next))
     }
 
 }

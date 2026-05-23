@@ -1,7 +1,7 @@
 import * as x from "zod"
 
 export const signupSchema = x.object({
-    body: {
+    body: x.object({
         firstName: x.string().min(3, "minimum 3 character is needed").max(10, "max 10 characters allowed").regex(/^[A-Za-z]+$/, "only letters allowed").trim(),
         lastName: x.string().min(3, "minimum 3 character is needed").max(10, "max 10 characters allowed").regex(/^[A-Za-z]+$/, "only letters allowed").trim(),
         email: x.string().email("enter proper email").trim(),
@@ -9,9 +9,7 @@ export const signupSchema = x.object({
             .regex(/[A-Z]/, "Must include at least one uppercase letter")
             .regex(/[a-z]/, "Must include at least one lowercase letter")
             .regex(/[0-9]/, "Must include at least one number"),
-    },
+    }),
 
-    query: x.object({}).optional(),
-    params: x.object({}).optional(),
 })
 export type userSignupData = x.infer<typeof signupSchema>

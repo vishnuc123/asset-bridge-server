@@ -4,6 +4,10 @@ import express from "express"
 import { container } from "../infrastructure/config/di/containers/Container";
 import { Tokens } from "../shared/constants/Tokens";
 import type { AuthRoutes } from "../presentation/routes/auth-routes";
+import cookieParser from "cookie-parser";
+import cors from "cors"
+import { env } from "../shared/constants/env";
+import { errorHandler } from "../presentation/middlewares/ErrorHandler";
 
 export class Settings {
     public App: Application
@@ -11,11 +15,33 @@ export class Settings {
     constructor() {
         this.App = express()
         this.server = http.createServer(this.App)
-    }
+        this.setGlobalMiddlewares();
+        this.setSecurityMiddlewares();
+        this.setRoutes();
+        this.setErrorHandling();
 
-    public setRoute():void {
+    }
+    private setGlobalMiddlewares(): void {
+        this.App.use(cookieParser())
+        this.App.use(express.json())
+        this.App.use(express.urlencoded({ extended: true }))
+
+    }
+    private setSecurityMiddlewares(): void {
+        this.App.use(cors({
+            origin: env.CLIENT_URL,
+            credentials: true,
+            methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+            allowedHeaders: ['Content-Type', 'Authorization']
+        }));
+
+    }
+    private setErrorHandling(): void {
+        this.App.use(errorHandler)
+    }
+    private setRoutes(): void {
         const userRoutes = container.get<AuthRoutes>(Tokens.authRoutes)
-        this.App.use("/api/v1/user",userRoutes.router)
+        this.App.use("/api/v1/user", userRoutes.router)
     }
 
     public listen(port: number): void {

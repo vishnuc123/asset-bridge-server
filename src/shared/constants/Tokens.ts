@@ -5,6 +5,10 @@ export const Tokens = {
     redisService:Symbol.for("redisService"),
     mailService:Symbol.for("mailService"),
     authService:Symbol.for("authService"),
+    
     registerUseCase:Symbol.for("registerUseCase"),
+    verifyOtpUseCase:Symbol.for("verifyOtpUseCase"),
+    confirmRegisterUseCase:Symbol.for("confirmRegisterUseCase"),
+    loginUseCase:Symbol.for("loginUseCase")
 
-} as const
+}

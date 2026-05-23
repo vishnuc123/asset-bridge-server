@@ -24,4 +24,7 @@ export const AUTH_ERROR_MESSAGES = {
     updatePass: 'User email or password are required',
     notVerified: 'User is not verified. Please upload docs and verify',
     kycMissing: 'Both front and back KYC documents are required',
+    LoginInvalidCredentials:"email or password is required or not found",
+    userNotFound:"user not found",
+    loginFailed:"user login failed credentials mismatch"
 }

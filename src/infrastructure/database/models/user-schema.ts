@@ -33,7 +33,7 @@ const UserSchema = new Schema<IUserDocument>(
     roles: {
       type: [String],
       required: true,
-      enum: ["User", "Admin", "Property_owner","Investor"], 
+      enum: ["user", "admin", "vendor","investor"], 
       default:[]
     },
     status:{
