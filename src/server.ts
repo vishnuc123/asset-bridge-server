@@ -1,3 +1,4 @@
+import "reflect-metadata"
 import { connectDb } from "./infrastructure/config/connect-db";
 import { connectRedis } from "./infrastructure/config/redis/redis";
 import { Settings } from "./settings/app";
@@ -10,6 +11,7 @@ const startServer = async () => {
         await connectRedis()
 
         app.listen(Number(env.PORT) || 2000)
+        console.log("server is running ")
     } catch (error) {
         console.error("server failed to start", error)
     }

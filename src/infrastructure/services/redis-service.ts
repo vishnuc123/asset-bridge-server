@@ -62,5 +62,15 @@ export class RedisService implements IredisService {
         const key = `refresh:${userId}`
         return await this.get(key)
     }
+    async storeResetToken(hashedToken: string, userId: string, expiresAt: number): Promise<void> {
+        const key = `reset:${hashedToken}`
+        // const createdAt = Date.now()
+        // const payload = {userId,createdAt,expiresAt}
+        await this.set(key,userId, expiresAt)
+    }
+    async deleteResetToken(value: string): Promise<number | null> {
+        const key = `reset:${value}`
+        return await this.del(key)
+    }
 
 }

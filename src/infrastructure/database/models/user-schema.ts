@@ -36,6 +36,12 @@ const UserSchema = new Schema<IUserDocument>(
       enum: ["user", "admin", "vendor","investor"], 
       default:[]
     },
+    activeRole:{
+      type:String,
+      required:true,
+      enum:["user","admin","vendor","investor"],
+      default:"user",
+    },
     status:{
       type:String,
       required:true,

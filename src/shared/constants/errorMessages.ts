@@ -26,5 +26,11 @@ export const AUTH_ERROR_MESSAGES = {
     kycMissing: 'Both front and back KYC documents are required',
     LoginInvalidCredentials:"email or password is required or not found",
     userNotFound:"user not found",
-    loginFailed:"user login failed credentials mismatch"
+    loginFailed:"user login failed credentials mismatch",
+    sessionExpired:"session Expired,Please Login again",
+    tokenError:"token not found or expired",
+    emailNotFound:"email not found please check the email again registered",
+    unauthorized:"unauthorized",
+    MissingRole:"role is missing"
+    
 }

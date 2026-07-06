@@ -17,7 +17,7 @@ export class ConfirmRegisterUseCase implements IConfirmRegisterUseCase {
         @inject(Tokens.redisService) private redisService: IredisService
     ) { }
     async execute(userId: string): Promise<{ userId: string; message: string; }> {
-        console.log("userid", userId)
+        // console.log("userid", userId)
         const otpdata = await this.redisService.getOtp(userId, "signup")
         const userData = otpdata?.data
         console.log("data from redis", userData)

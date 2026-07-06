@@ -21,7 +21,7 @@ export class RegisterUseCase implements IRegisterUseCase {
         @inject(Tokens.authService) private authService: IAuthService
     ) { }
     async execute(userData: TUserData): Promise<{ userid: string; expiryTime: number; message: string }> {
-        console.log("user data", userData)
+        // console.log("user data", userData)
 
         const existingUser = await this.authRepository.findUserByEmail(userData.email)
         if (existingUser) {
@@ -41,7 +41,7 @@ export class RegisterUseCase implements IRegisterUseCase {
             ...userData,
             password: hashedPass,
             status: "pending",
-            roles: ["user"]
+            roles: ["user","investor","vendor"],
         }
         const [result] = await Promise.all([
             this.redisService.storeOtp(tempUserId, newOtp, newUserData, "signup"),

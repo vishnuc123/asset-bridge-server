@@ -1,6 +1,6 @@
 import { HttpStatusCode } from "../../shared/constants/HttpStatusCodes";
 import { AppError } from "../../shared/utils/AppError";
-import type { IAuthService } from "../interfaces/Iauth-service";
+import type { IAuthService, IJwtPayload } from "../interfaces/Iauth-service";
 import * as crypto from "crypto"
 import bcrypt from "bcrypt"
 import { jwtConfig, otpTimer } from "../config/jwt/jwt";
@@ -10,8 +10,9 @@ import type { IMailService } from "../interfaces/Imail-service";
 import type { TOtpData } from "../../shared/types/commonTypes";
 import type { IredisService } from "../interfaces/Iredis-service";
 import type { TRole } from "../../shared/types/AuthTypes";
-import jwt, { type Secret, type SignOptions } from "jsonwebtoken"
+import jwt, { type JwtPayload, type Secret, type SignOptions } from "jsonwebtoken"
 import { env } from "../../shared/constants/env";
+import ms from "ms"
 
 @injectable()
 export class AuthService implements IAuthService {
@@ -65,19 +66,112 @@ export class AuthService implements IAuthService {
         return bcrypt.compare(passwrod, userPassword)
     }
 
-    generateRefreashToken(userId: string, role: TRole[], email: string): string {
-        const secreat: Secret = env.JWT_REFREASH_SECRET as string
-        const options: SignOptions = {
-            expiresIn: `${jwtConfig.refreshToken.maxAge}`
-        }
-        return jwt.sign({ userId, role, email }, secreat, options)
-    }
-    generateAccessToken(userId: string, role: TRole[], email: string): string {
 
-        const secreat: Secret = env.JWT_ACCESS_SECRET as string
-        const options: SignOptions = {
-            expiresIn: `${jwtConfig.accessToken.maxAge}`
+    generateRefreashToken(userId: string, roles: TRole[], email: string, activeRole: TRole): string {
+        try {
+            const secret: Secret = env.JWT_REFREASH_SECRET;
+
+            const options: SignOptions = {
+                expiresIn: jwtConfig.refreshToken.expiresIn as ms.StringValue
+            };
+
+            const refreshToken = jwt.sign({ userId, roles, email, activeRole }, secret, options);
+            return refreshToken
+        } catch (error) {
+            console.error("Access token generation failed:", error);
+
+            throw new AppError(
+                "Failed to generate access token",
+                HttpStatusCode.INTERNAL_SERVER_ERROR
+            );
         }
-        return jwt.sign({ userId, role, email }, secreat, options)
+    }
+
+
+    generateAccessToken(userId: string, roles: TRole[], email: string, activeRole: TRole): string {
+        try {
+            const secret: Secret = env.JWT_ACCESS_SECRET;
+
+            const options: SignOptions = {
+                expiresIn: jwtConfig.accessToken.expiresIn as ms.StringValue
+            };
+            const accessToken = jwt.sign({ userId, roles, email, activeRole }, secret, options);
+            console.log("new AccesToken", accessToken)
+            return accessToken
+        } catch (error) {
+            console.error("Access token generation failed:", error);
+
+            throw new AppError(
+                "Failed to generate access token",
+                HttpStatusCode.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+
+
+    verifyRefreashToken(token: string): IJwtPayload | null {
+        try {
+            console.log("incoming token", token);
+
+            const dec = jwt.verify(token, env.JWT_REFREASH_SECRET)
+            console.log("verify refreash token ", dec);
+
+            return dec as IJwtPayload
+
+        } catch (error: any) {
+            console.log("error actual", error);
+
+
+            if (error.name === "TokenExpiredError") {
+                throw new AppError(
+                    "Refresh token expired",
+                    HttpStatusCode.UNAUTHORIZED
+                );
+            }
+
+            if (error.name === "JsonWebTokenError") {
+                throw new AppError(
+                    "Invalid Refresh token",
+                    HttpStatusCode.UNAUTHORIZED
+                );
+            }
+
+            throw new AppError(
+                "Token verification failed",
+                HttpStatusCode.UNAUTHORIZED
+            );
+        }
+
+    }
+
+
+    verifyAccessToken(token: string): IJwtPayload {
+        try {
+            const decoded = jwt.verify(token, env.JWT_ACCESS_SECRET);
+            console.log("verify access Token", decoded);
+
+            return decoded as IJwtPayload;
+        } catch (error: any) {
+
+            if (error.name === "TokenExpiredError") {
+                throw new AppError(
+                    "Access token expired",
+                    HttpStatusCode.UNAUTHORIZED
+                );
+            }
+
+            if (error.name === "JsonWebTokenError") {
+                throw new AppError(
+                    "Invalid access token",
+                    HttpStatusCode.UNAUTHORIZED
+                );
+            }
+
+            throw new AppError(
+                "Token verification failed",
+                HttpStatusCode.UNAUTHORIZED
+            );
+        }
     }
 }

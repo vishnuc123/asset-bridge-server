@@ -3,7 +3,8 @@ import type { BaseRepository } from "../../infrastructure/database/repositories/
 import type { TUserData, TUserResponse } from "../../shared/types/AuthTypes";
 import type { IUser } from "../models/user-models";
 
-export interface IAuthRepository extends BaseRepository<IUserDocument>{
-    findUserById(user:string):Promise<TUserResponse | null>;
-    findUserByEmail(email:string):Promise<TUserResponse | null>;
+export interface IAuthRepository extends BaseRepository<IUserDocument> {
+    findUserById(userId: string): Promise<TUserResponse | null>;
+    findUserByEmail(email: string): Promise<TUserResponse | null>;
+    updateUserById(userId: string, updateData: Partial<IUser>): Promise<TUserResponse | null>;
 }

@@ -11,6 +11,7 @@ export interface IUser {
     phone: string,
     isBlocked: boolean,
     profileImage?: string,
+    activeRole:TRole,
     isVerified: boolean,
     status:TStatus,
     kycStatus:TKycStatus,

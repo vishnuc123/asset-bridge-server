@@ -7,6 +7,7 @@ import { AUTH_ERROR_MESSAGES } from "../../../shared/constants/errorMessages";
 import { HttpStatusCode } from "../../../shared/constants/HttpStatusCodes";
 import type { IAuthService } from "../../../infrastructure/interfaces/Iauth-service";
 import type { IUser } from "../../../core/models/user-models";
+import type { TUserResponse } from "../../../shared/types/AuthTypes";
 
 @injectable()
 export class LoginUseCase implements ILoginUseCase {
@@ -16,7 +17,7 @@ export class LoginUseCase implements ILoginUseCase {
     ) {
 
     }
-    async execute(email: string, password: string): Promise<{ accessToken: string; refreashToken: string;user:IUser, message: string; }> {
+    async execute(email: string, password: string): Promise<{ accessToken: string; refreashToken: string; user: TUserResponse, message: string; }> {
         const user = await this.authRepository.findUserByEmail(email)
 
         if (!user) {
@@ -27,14 +28,14 @@ export class LoginUseCase implements ILoginUseCase {
         if (!verifyPass) {
             throw new AppError(AUTH_ERROR_MESSAGES.loginFailed, HttpStatusCode.BAD_REQUEST)
         }
-        const accessToken = await this.authService.generateAccessToken(user.id,user.roles,email)
-        const refreashToken = await this.authService.generateRefreashToken(user.id,user.roles,user.email)
+        const accessToken = await this.authService.generateAccessToken(user.id, user.roles, user.email, "user")
+        const refreashToken = await this.authService.generateRefreashToken(user.id, user.roles, user.email, "user")
 
         return {
             accessToken,
             refreashToken,
             user,
-            message:"user logged in Successfully"
+            message: "user logged in Successfully"
         }
     }
 }

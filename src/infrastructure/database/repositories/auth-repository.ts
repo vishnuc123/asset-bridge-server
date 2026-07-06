@@ -5,7 +5,7 @@ import { Mapper } from "../../../shared/utils/Mapper";
 
 import { UserModel, type IUserDocument } from "../models/user-schema";
 import { BaseRepository } from "./base-repository";
-import {injectable} from "inversify"
+import { injectable } from "inversify"
 
 
 @injectable()
@@ -17,7 +17,14 @@ export class AuthRepository extends BaseRepository<IUserDocument> implements IAu
     }
     async findUserByEmail(email: string): Promise<TUserResponse | null> {
         const data = await this.model.findOne({ email: email })
-        return Mapper.UserMapper(data as IUserDocument)
-
+        // console.log("data from db",data)
+        return data ? Mapper.UserMapper(data as IUserDocument) : null;
     }
+    async updateUserById(userId: string, updateData: Partial<IUser>): Promise<TUserResponse | null> {
+        const data = await this.model.findByIdAndUpdate(userId, updateData, { returnDocument:"after" })
+        return data
+            ? Mapper.UserMapper(data as IUserDocument)
+            : null
+    }
+
 }

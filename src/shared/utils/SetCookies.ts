@@ -9,7 +9,7 @@ export const setAccessCookies = (accessToken: string, res: Response) => {
     })
 }
 export const setRefreashToken = (refreashToken: string, res: Response) => {
-    return res.cookie("refreash-token",refreashToken,{
+    return res.cookie("refresh-token",refreashToken,{
         httpOnly:true,
         sameSite:"strict",
         maxAge:jwtConfig.refreshToken.maxAge

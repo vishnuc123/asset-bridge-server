@@ -15,8 +15,8 @@ export class Settings {
     constructor() {
         this.App = express()
         this.server = http.createServer(this.App)
-        this.setGlobalMiddlewares();
         this.setSecurityMiddlewares();
+        this.setGlobalMiddlewares();
         this.setRoutes();
         this.setErrorHandling();
 

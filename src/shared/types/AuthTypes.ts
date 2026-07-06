@@ -15,15 +15,24 @@ export type TUserResponse = {
     email: string,
     password: string,
     roles: TRole[],
+    activeRole:string,
     phone: string,
     isBlocked: boolean,
-    profileImage: string,
+    profileImage?: string,
     isVerified: boolean,
     status: TStatus,
     kycStatus: TKycStatus,
     emailVerified: boolean,
     phoneVerified: boolean
     verificationReason?: string,
+}
+export type TloginResponse = {
+    id: string
+    firstName: string,
+    lastName: string
+    email: string
+    roles: TRole[]
+    status: string
 }
 export type TRole = "user" | "admin" | "investor" | "vendor"
 export type TStatus = "active" | "banned" | "pending"

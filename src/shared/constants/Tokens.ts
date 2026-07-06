@@ -9,6 +9,12 @@ export const Tokens = {
     registerUseCase:Symbol.for("registerUseCase"),
     verifyOtpUseCase:Symbol.for("verifyOtpUseCase"),
     confirmRegisterUseCase:Symbol.for("confirmRegisterUseCase"),
-    loginUseCase:Symbol.for("loginUseCase")
+    loginUseCase:Symbol.for("loginUseCase"),
+    getAuthenticateUseCase:Symbol.for("getAuthenticateUseCase"),
+    refreashUseCase:Symbol.for("refreashUseCase"),
+    forgetPasswordUseCase:Symbol.for("forgetPasswordUseCase"),
+    resetPasswordUseCase:Symbol.for("resetPasswordUseCase"),
+    googleLoginUseCase:Symbol.for("googleLoginUseCase"),
+    switchRoleUseCase:Symbol.for("switchRoleUseCase")
 
 }
