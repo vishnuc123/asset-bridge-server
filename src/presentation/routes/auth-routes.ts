@@ -19,10 +19,11 @@ export class AuthRoutes extends BaseRoute {
             .post("/login",(req, res, next) => this.authcontroller.Login(req, res, next))
             .post('/google-login', (req, res, next) => this.authcontroller.GoogleLogin(req, res, next))
             .post('/forget-password', (req, res, next) => this.authcontroller.ForgetPassword(req, res, next))
+            .post("/resend-otp",(req,res,next) => this.authcontroller.ResendOtp(req,res,next))
             .post('/logout', authenticateUser, (req, res, next) => this.authcontroller.Logout(req, res, next))
             .post('/reset-password', (req, res, next) => this.authcontroller.ResetPassword(req, res, next))
-            .get("/refresh",(req, res, next) => this.authcontroller.Refreash(req, res, next))
             .post('/switch-role', authenticateUser, authorizeRoles("user","investor","vendor"), (req, res, next) => this.authcontroller.switchRole(req, res, next))
+            .get("/refresh",(req, res, next) => this.authcontroller.Refreash(req, res, next))
     }
 
 }

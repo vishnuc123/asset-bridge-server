@@ -15,6 +15,8 @@ export const Tokens = {
     forgetPasswordUseCase:Symbol.for("forgetPasswordUseCase"),
     resetPasswordUseCase:Symbol.for("resetPasswordUseCase"),
     googleLoginUseCase:Symbol.for("googleLoginUseCase"),
-    switchRoleUseCase:Symbol.for("switchRoleUseCase")
+    switchRoleUseCase:Symbol.for("switchRoleUseCase"),
+    resendOtpUseCase:Symbol.for("resendOtpUseCase"),
+    
 
 }

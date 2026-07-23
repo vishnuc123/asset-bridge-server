@@ -29,7 +29,10 @@ export class Settings {
     }
     private setSecurityMiddlewares(): void {
         this.App.use(cors({
-            origin: env.CLIENT_URL,
+            origin: [
+                env.CLIENT_URL,
+                env.LOCAL_IP
+            ],
             credentials: true,
             methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
             allowedHeaders: ['Content-Type', 'Authorization']
@@ -45,7 +48,7 @@ export class Settings {
     }
 
     public listen(port: number): void {
-        this.server.listen(port, () => {
+        this.server.listen(port, "0.0.0.0",() => {
             console.log(`server is running on http://localhost:${port}`)
         })
     }

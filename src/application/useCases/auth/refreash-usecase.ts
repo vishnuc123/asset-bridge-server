@@ -1,7 +1,7 @@
 import { inject, injectable } from "inversify";
 import { AUTH_ERROR_MESSAGES } from "../../../shared/constants/errorMessages";
 import { HttpStatusCode } from "../../../shared/constants/HttpStatusCodes";
-import type { TRole } from "../../../shared/types/AuthTypes";
+import type { TRole, TUserResponse } from "../../../shared/types/AuthTypes";
 import { AppError } from "../../../shared/utils/AppError";
 import type { IRefreashUseCase } from "../../interfaces/Iauth-usecase";
 import { Tokens } from "../../../shared/constants/Tokens";
@@ -15,7 +15,7 @@ export class RefreashUseCase implements IRefreashUseCase {
         @inject(Tokens.authService) private authService: IAuthService,
         @inject(Tokens.authRepository) private authRepository: IAuthRepository
     ) { }
-    async execute(token: string): Promise<string> {
+    async execute(token: string): Promise<{newAccessToken:string,user:TUserResponse}> {
 
 
         const decode = this.authService.verifyRefreashToken(token)
@@ -36,6 +36,6 @@ export class RefreashUseCase implements IRefreashUseCase {
 
         const newAccessToken = await this.authService.generateAccessToken(user.id, user.roles, user.email, user.activeRole as TRole)
 
-        return newAccessToken
+        return {newAccessToken,user}
     }
 }

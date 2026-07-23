@@ -2,7 +2,7 @@ import type { Request, Response, NextFunction } from "express-serve-static-core"
 import type { TloginResponse, TRole, TUserData } from "../../shared/types/AuthTypes";
 import { inject, injectable } from "inversify";
 import { Tokens } from "../../shared/constants/Tokens";
-import type { IForgetPassword, IGoogleLoginUseCase, ILoginUseCase, IRefreashUseCase, IRegisterUseCase, IResetPasswordUseCase, ISwitchRoleUseCase, IVerifyOtpUseCase } from "../../application/interfaces/Iauth-usecase";
+import type { IForgetPassword, IGoogleLoginUseCase, ILoginUseCase, IRefreashUseCase, IRegisterUseCase, IResendOtpUseCase, IResetPasswordUseCase, ISwitchRoleUseCase, IVerifyOtpUseCase } from "../../application/interfaces/Iauth-usecase";
 import { ResponseHandler } from "../middlewares/Response-handler";
 import { HttpStatusCode } from "../../shared/constants/HttpStatusCodes";
 import { AppError } from "../../shared/utils/AppError";
@@ -21,7 +21,8 @@ export class Authcontroller {
         @inject(Tokens.forgetPasswordUseCase) private forgetPassUseCase: IForgetPassword,
         @inject(Tokens.resetPasswordUseCase) private resetPassUseCase: IResetPasswordUseCase,
         @inject(Tokens.googleLoginUseCase) private googleLoginUseCase: IGoogleLoginUseCase,
-        @inject(Tokens.switchRoleUseCase) private SwitchRoleUseCase: ISwitchRoleUseCase
+        @inject(Tokens.switchRoleUseCase) private SwitchRoleUseCase: ISwitchRoleUseCase,
+        @inject(Tokens.resendOtpUseCase)private resendOtpUseCase:IResendOtpUseCase
     ) {
 
     }
@@ -110,10 +111,10 @@ export class Authcontroller {
                 throw new AppError(AUTH_ERROR_MESSAGES.unauthorized, HttpStatusCode.UNAUTHORIZED)
             }
 
-            const newAccessToken = await this.refreashUseCase.execute(refreashToken)
+            const { newAccessToken, user } = await this.refreashUseCase.execute(refreashToken)
             setAccessCookies(newAccessToken, res)
 
-            ResponseHandler.success(res, "Token refresh successfully", null, HttpStatusCode.OK)
+            ResponseHandler.success(res, "Token refresh successfully", user, HttpStatusCode.OK)
         } catch (error) {
             next(error)
         }
@@ -174,6 +175,31 @@ export class Authcontroller {
             setAccessCookies(accessToken, res)
             setRefreashToken(refreashToken, res)
             ResponseHandler.success(res, "user role successfully", updatedData, HttpStatusCode.OK)
+        } catch (error) {
+            next(error)
+        }
+    }
+    async ResendOtp(req: Request, res: Response, next: NextFunction) {
+        try {
+            console.log("hit resend",req.body);
+            const userId = req.body.userid
+            console.log("userid",userId)
+
+            if (!userId) {
+                throw new AppError(
+                    AUTH_ERROR_MESSAGES.IdMissing,
+                    HttpStatusCode.BAD_REQUEST
+                );
+            }
+            const {message} = await this.resendOtpUseCase.execute(userId);
+
+            ResponseHandler.success(
+                res,
+                message,
+                null,
+                HttpStatusCode.OK
+            );
+
         } catch (error) {
             next(error)
         }

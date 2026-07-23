@@ -16,26 +16,29 @@ export interface IConfirmRegisterUseCase {
 }
 
 export interface ILoginUseCase {
-    execute(email: string, password: string): Promise<{ accessToken: string, refreashToken: string, user:TUserResponse,message: string }>
+    execute(email: string, password: string): Promise<{ accessToken: string, refreashToken: string, user: TUserResponse, message: string }>
 }
 
-export interface IgetAuthenticateUseCase{
-    execute(userId:string,refreashToken:string):Promise<TloginResponse>
+export interface IgetAuthenticateUseCase {
+    execute(userId: string, refreashToken: string): Promise<TloginResponse>
 }
 
 export interface IRefreashUseCase {
-    execute(refreshToken:string):Promise<string>
+    execute(refreshToken: string): Promise<{ newAccessToken: string, user: TUserResponse }>
 }
 
-export interface IForgetPassword{
-    execute(email:string):Promise<{token:string,message:string}>
+export interface IForgetPassword {
+    execute(email: string): Promise<{ token: string, message: string }>
 }
-export interface IResetPasswordUseCase{
-    execute(password:string,token:string):Promise<{message:string}>
+export interface IResetPasswordUseCase {
+    execute(password: string, token: string): Promise<{ message: string }>
 }
-export interface IGoogleLoginUseCase{
-    execute(googleToken:string):Promise<{accessToken:string,refreashToken:string,user:TUserData}>
+export interface IGoogleLoginUseCase {
+    execute(googleToken: string): Promise<{ accessToken: string, refreashToken: string, user: TUserData }>
 }
-export interface ISwitchRoleUseCase{
-    execute(userId:string,role:TRole):Promise<{accessToken:string,refreashToken:string,message:string,updatedData:TUserData}>
+export interface ISwitchRoleUseCase {
+    execute(userId: string, role: TRole): Promise<{ accessToken: string, refreashToken: string, message: string, updatedData: TUserData }>
+}
+export interface IResendOtpUseCase {
+    execute(userId: string): Promise<{ expiryTime: number; message: string }>
 }

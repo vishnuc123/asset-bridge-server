@@ -16,6 +16,7 @@ import { ForgetPasswordUseCase } from "../../../../application/useCases/auth/for
 import { ResetPassUseCase } from "../../../../application/useCases/auth/reset-password-usecase";
 import { GoogleLoginUseCase } from "../../../../application/useCases/auth/GoogleLoginUseCase";
 import { switchRoleUseCase } from "../../../../application/useCases/auth/switch-role-usecase";
+import { ResendOtpUseCase } from "../../../../application/useCases/auth/resendOtp-usecase";
 
 export const authModule = new ContainerModule(({ bind }) => {
     bind(Tokens.authController).to(Authcontroller)
@@ -34,4 +35,5 @@ export const authModule = new ContainerModule(({ bind }) => {
     bind(Tokens.resetPasswordUseCase).to(ResetPassUseCase)
     bind(Tokens.googleLoginUseCase).to(GoogleLoginUseCase)
     bind(Tokens.switchRoleUseCase).to(switchRoleUseCase)
+    bind(Tokens.resendOtpUseCase).to(ResendOtpUseCase)
 })
