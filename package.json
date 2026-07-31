@@ -10,15 +10,16 @@
     "start": "tsup src/server.ts --format esm --clean --minify",
     "build": "rimraf dist && tsup src/server.ts --format esm",
     "dev": "tsup src/server.ts --format esm --watch --onSuccess \"node dist/server.js\"",
-    "lint": "eslint src --ext .ts"
+    "lint": "eslint ."
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^25.5.2",
-    "eslint": "^10.2.0",
-    "globals": "^17.4.0",
+    "eslint": "^10.8.0",
+    "globals": "^17.8.0",
+    "jiti": "^2.7.0",
     "typescript": "^6.0.2",
-    "typescript-eslint": "^8.58.1"
+    "typescript-eslint": "^8.65.0"
   },
   "dependencies": {
     "@types/bcrypt": "^6.0.0",
