@@ -49,7 +49,11 @@ export class GoogleLoginUseCase implements IGoogleLoginUseCase {
                 status: "active",
                 isBlocked: false,
                 password: await this.authService.hashPassword(Math.random().toString(36).slice(-8)),
-                roles: ["user", "investor", "vendor"]
+                roles: ["user", "investor", "vendor"],
+                gender:"",
+                nationality:"",
+                dob:"",
+                address:"",
             }
             user = await this.authRepository.create(newUser)
         } else {

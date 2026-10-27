@@ -2,7 +2,7 @@ import type { TRole, TStatus } from "../../shared/types/AuthTypes";
 import type { TKycStatus } from "../../shared/types/commonTypes";
 
 export interface IUser {
-    id:string,
+    id: string,
     firstName: string,
     lastName: string,
     email: string,
@@ -11,11 +11,15 @@ export interface IUser {
     phone: string,
     isBlocked: boolean,
     profileImage?: string,
-    activeRole:TRole,
+    activeRole: TRole,
     isVerified: boolean,
-    status:TStatus,
-    kycStatus:TKycStatus,
-    emailVerified:boolean,
-    phoneVerified:boolean
+    status: TStatus,
+    kycStatus: TKycStatus,
+    emailVerified: boolean,
+    phoneVerified: boolean
     verificationReason?: string,
+    gender?: string;
+    dob?: Date | string;
+    nationality?: string;
+    address?: string;
 }

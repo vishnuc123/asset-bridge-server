@@ -9,7 +9,6 @@ import { AppError } from "../../shared/utils/AppError";
 import { AUTH_ERROR_MESSAGES } from "../../shared/constants/errorMessages";
 import { setAccessCookies, setRefreashToken } from "../../shared/utils/SetCookies";
 import { UserDtos } from "../../infrastructure/dtos/userDto";
-import { AuthService } from "../../infrastructure/services/auth-service";
 
 @injectable()
 export class Authcontroller {

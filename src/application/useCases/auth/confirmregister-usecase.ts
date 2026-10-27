@@ -32,7 +32,11 @@ export class ConfirmRegisterUseCase implements IConfirmRegisterUseCase {
                 ...userData,
                 emailVerified: true,
                 status: "active",
-                isBlocked: false
+                isBlocked: false,
+                gender:"",
+                nationality:"",
+                dob:"",
+                address:"",
             })
         } else {
             const updatedRoles = [...existingUser.roles, "investor", "vendor"]

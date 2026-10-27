@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 import type { IUser } from "../../../core/models/user-models";
 
-export interface IUserDocument extends IUser, Document {}
+export interface IUserDocument extends IUser, Document { }
 
 const UserSchema = new Schema<IUserDocument>(
   {
@@ -33,19 +33,19 @@ const UserSchema = new Schema<IUserDocument>(
     roles: {
       type: [String],
       required: true,
-      enum: ["user", "admin", "vendor","investor"], 
-      default:[]
+      enum: ["user", "admin", "vendor", "investor"],
+      default: []
     },
-    activeRole:{
-      type:String,
-      required:true,
-      enum:["user","admin","vendor","investor"],
-      default:"user",
+    activeRole: {
+      type: String,
+      required: true,
+      enum: ["user", "admin", "vendor", "investor"],
+      default: "user",
     },
-    status:{
-      type:String,
-      required:true,
-      enum:["pending","active","banned"]
+    status: {
+      type: String,
+      required: true,
+      enum: ["pending", "active", "banned"]
     },
     phone: {
       type: String,
@@ -63,13 +63,13 @@ const UserSchema = new Schema<IUserDocument>(
     kycStatus: {
       type: String,
       required: true,
-      enum: ["pending", "verified", "rejected"], 
+      enum: ["pending", "verified", "rejected"],
       default: "pending",
     },
-    isBlocked:{
-      type:Boolean,
-      required:true,
-      default:false
+    isBlocked: {
+      type: Boolean,
+      required: true,
+      default: false
     },
 
     emailVerified: {
@@ -80,6 +80,24 @@ const UserSchema = new Schema<IUserDocument>(
     phoneVerified: {
       type: Boolean,
       default: false,
+    },
+    gender: {
+      type: String,
+      trim: true,
+    },
+
+    dob: {
+      type: Date,
+    },
+
+    nationality: {
+      type: String,
+      trim: true,
+    },
+
+    address: {
+      type: String,
+      trim: true,
     },
   },
   {

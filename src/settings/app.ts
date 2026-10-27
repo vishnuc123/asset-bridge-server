@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors"
 import { env } from "../shared/constants/env";
 import { errorHandler } from "../presentation/middlewares/ErrorHandler";
+import type { AccountRoutes } from "../presentation/routes/account-routes";
 
 export class Settings {
     public App: Application
@@ -44,7 +45,9 @@ export class Settings {
     }
     private setRoutes(): void {
         const userRoutes = container.get<AuthRoutes>(Tokens.authRoutes)
+        const accountRoutes = container.get<AccountRoutes>(Tokens.AccountRoutes)
         this.App.use("/api/v1/user", userRoutes.router)
+        this.App.use("/api/v1/user/account",accountRoutes.router)
     }
 
     public listen(port: number): void {

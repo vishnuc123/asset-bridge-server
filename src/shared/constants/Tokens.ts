@@ -1,3 +1,5 @@
+import { symbol } from "zod";
+
 export const Tokens = {
     authRoutes:Symbol.for("authRoutes"),
     authController:Symbol.for("authController"),
@@ -18,5 +20,12 @@ export const Tokens = {
     switchRoleUseCase:Symbol.for("switchRoleUseCase"),
     resendOtpUseCase:Symbol.for("resendOtpUseCase"),
     
+
+    // account tokens
+    AccountRoutes:Symbol.for("accountRoutes"),
+    accountController:Symbol.for("accountController"),
+
+
+    accountUpdateUseCase:Symbol.for("accountUpdateUseCase"),
 
 }
