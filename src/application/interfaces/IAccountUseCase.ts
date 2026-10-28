@@ -7,4 +7,6 @@ export interface IUpdateProfileUseCase {
 export interface IKycStorageUseCase {
 
     execute(userId: string, values: IGenerateUploadUrlInput): Promise<IGenerateUploadUrlResult>
+    
 }
+

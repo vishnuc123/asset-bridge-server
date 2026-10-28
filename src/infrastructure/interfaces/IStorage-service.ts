@@ -2,7 +2,7 @@ import type { TkycDocumentInput } from "../../shared/validations/kyc/KycDocument
 
 export interface IGenerateUploadUrlInput {
   userid: string;
-  type: TkycDocumentInput;
+  type: string;
   fileType: string;
   fileSize: number;
 }

@@ -4,19 +4,21 @@ import { AppError } from "../../shared/utils/AppError";
 import type { IGenerateUploadUrlInput, IGenerateUploadUrlResult, IKycStorageService } from "../interfaces/IStorage-service";
 import { randomUUID } from "crypto";
 import { KYC_BUCKET, supabase } from "../config/supabase/supabase";
+import { injectable } from "inversify";
 
+@injectable()
 export class KycStorageService implements IKycStorageService {
     async generateUploadUrl(values: IGenerateUploadUrlInput): Promise<IGenerateUploadUrlResult> {
         const { userid, type, fileType, fileSize } = values
         const allowedTypes = ["passport", "adhaar", "selfie"]
-        const allowedFileType = ["image/jpeg", "image/pdf", "video/mp4"]
+        const allowedFileType = ["image/jpeg", "application/pdf", "video/mp4"]
         const extensions: Record<string, string> = {
-            "image/jpeg": "jpeg",
-            "image/png": "png",
+            "image/jpeg": "jpg",
+            "video/mp4": "mp4",
             "application/pdf": "pdf",
         }
         const sizeLimit = 10 * 1024 * 1024
-        if (!allowedTypes.includes(fileType)) {
+        if (!allowedTypes.includes(type)) {
             throw new AppError("invalid document type(kyc)", HttpStatusCode.UNSUPPORTED_MEDIA)
         }
         if (!allowedFileType.includes(fileType)) {

@@ -2,10 +2,11 @@ import type { Request, Response, NextFunction } from "express"
 import { AppError } from "../../shared/utils/AppError"
 import { AUTH_ERROR_MESSAGES } from "../../shared/constants/errorMessages"
 import { HttpStatusCode } from "../../shared/constants/HttpStatusCodes"
-import { inject } from "inversify"
+import { inject, injectable } from "inversify"
 import { Tokens } from "../../shared/constants/Tokens"
 import type { IKycStorageUseCase, IUpdateProfileUseCase } from "../../application/interfaces/IAccountUseCase"
 import { ResponseHandler } from "../middlewares/Response-handler"
+@injectable()
 export class AccountController {
     constructor(
         @inject(Tokens.accountUpdateUseCase) private accountUpdateUseCase: IUpdateProfileUseCase,
@@ -28,10 +29,25 @@ export class AccountController {
     async generateUploadUrl(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const userId = req.user?.userId as string
-            const result = await this.KycStorageUseCase.execute(userId, req.body)
+            const data = req.body
+            console.log("data from the frontend", req.body)
+            const result = await this.KycStorageUseCase.execute(userId, data)
             ResponseHandler.success(res, "file uploaded successfully", result, HttpStatusCode.OK)
         } catch (error) {
             next(error)
+        }
+    }
+    async confirmUpload(req: Request,res: Response,next: NextFunction): Promise<void> {
+        try {
+            const userId = req.user?.userId as string
+            const result = await this.KycStorageUseCase.confirmUpload(
+                userId,
+                req.body
+            );
+
+            ResponseHandler.success(res,"kyc document submitted successfully",result,HttpStatusCode.OK)
+        } catch (error) {
+            next(error);
         }
     }
 }
