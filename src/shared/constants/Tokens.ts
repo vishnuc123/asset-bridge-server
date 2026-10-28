@@ -7,6 +7,7 @@ export const Tokens = {
     redisService:Symbol.for("redisService"),
     mailService:Symbol.for("mailService"),
     authService:Symbol.for("authService"),
+    kycStorageService:Symbol.for("KycStorageService"),
     
     registerUseCase:Symbol.for("registerUseCase"),
     verifyOtpUseCase:Symbol.for("verifyOtpUseCase"),
@@ -19,6 +20,7 @@ export const Tokens = {
     googleLoginUseCase:Symbol.for("googleLoginUseCase"),
     switchRoleUseCase:Symbol.for("switchRoleUseCase"),
     resendOtpUseCase:Symbol.for("resendOtpUseCase"),
+    kycStorageUseCase:Symbol.for("KycStorageUseCase"),
     
 
     // account tokens

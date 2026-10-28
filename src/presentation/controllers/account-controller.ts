@@ -4,10 +4,13 @@ import { AUTH_ERROR_MESSAGES } from "../../shared/constants/errorMessages"
 import { HttpStatusCode } from "../../shared/constants/HttpStatusCodes"
 import { inject } from "inversify"
 import { Tokens } from "../../shared/constants/Tokens"
-import type { IUpdateProfileUseCase } from "../../application/interfaces/IAccountUseCase"
+import type { IKycStorageUseCase, IUpdateProfileUseCase } from "../../application/interfaces/IAccountUseCase"
 import { ResponseHandler } from "../middlewares/Response-handler"
 export class AccountController {
-    constructor(@inject(Tokens.accountUpdateUseCase) private accountUpdateUseCase: IUpdateProfileUseCase) { }
+    constructor(
+        @inject(Tokens.accountUpdateUseCase) private accountUpdateUseCase: IUpdateProfileUseCase,
+        @inject(Tokens.kycStorageUseCase) private KycStorageUseCase: IKycStorageUseCase
+    ) { }
     async updateProfile(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const userId = req.user?.userId
@@ -22,12 +25,13 @@ export class AccountController {
             next(error)
         }
     }
-    async VerifyKyc(req: Request, res: Response, next: NextFunction): Promise<void> {
+    async generateUploadUrl(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            const userId = req.user?.userId
-            const
+            const userId = req.user?.userId as string
+            const result = await this.KycStorageUseCase.execute(userId, req.body)
+            ResponseHandler.success(res, "file uploaded successfully", result, HttpStatusCode.OK)
         } catch (error) {
-
+            next(error)
         }
     }
 }

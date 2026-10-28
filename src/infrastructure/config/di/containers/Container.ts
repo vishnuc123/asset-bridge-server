@@ -5,6 +5,6 @@ import { accountModule } from "../modules/AccountModule.js";
 
 export const container  = new Container()
 container.load(
-    authModule,accountModule
+    authModule,accountModule,
 )
 
