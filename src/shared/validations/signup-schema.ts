@@ -1,15 +1,33 @@
-import * as x from "zod"
 
-export const signupSchema = x.object({
-    body: x.object({
-        firstName: x.string().min(3, "minimum 3 character is needed").max(10, "max 10 characters allowed").regex(/^[A-Za-z]+$/, "only letters allowed").trim(),
-        lastName: x.string().min(3, "minimum 3 character is needed").max(10, "max 10 characters allowed").regex(/^[A-Za-z]+$/, "only letters allowed").trim(),
-        email: x.string().email("enter proper email").trim(),
-        password: x.string().min(6, "minimum 6 character").max(10, "maximum 10 character allowed").trim()
-            .regex(/[A-Z]/, "Must include at least one uppercase letter")
-            .regex(/[a-z]/, "Must include at least one lowercase letter")
-            .regex(/[0-9]/, "Must include at least one number"),
-    }),
+import * as z from "zod";
 
-})
-export type userSignupData = x.infer<typeof signupSchema>
+export const signupSchema = z.object({
+  firstName: z
+    .string()
+    .trim()
+    .min(3, "Minimum 3 characters are needed")
+    .max(10, "Maximum 10 characters allowed")
+    .regex(/^[A-Za-z]+$/, "Only letters allowed"),
+
+  lastName: z
+    .string()
+    .trim()
+    .min(3, "Minimum 3 characters are needed")
+    .max(10, "Maximum 10 characters allowed")
+    .regex(/^[A-Za-z]+$/, "Only letters allowed"),
+
+  email: z
+    .string()
+    .trim()
+    .email("Enter a proper email"),
+
+  password: z
+    .string()
+    .min(6, "Minimum 6 characters")
+    .max(10, "Maximum 10 characters allowed")
+    .regex(/[A-Z]/, "Must include at least one uppercase letter")
+    .regex(/[a-z]/, "Must include at least one lowercase letter")
+    .regex(/[0-9]/, "Must include at least one number"),
+});
+
+export type UserSignupData = z.infer<typeof signupSchema>;

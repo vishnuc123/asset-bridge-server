@@ -25,6 +25,10 @@ export type TUserResponse = {
     emailVerified: boolean,
     phoneVerified: boolean
     verificationReason?: string,
+    gender?:string,
+    nationality?:string,
+    dob?:string,
+    address?:string
 }
 export type TloginResponse = {
     id: string

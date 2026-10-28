@@ -5,6 +5,7 @@ import type { AccountController } from "../controllers/account-controller";
 import { authenticateUser } from "../middlewares/AuthenticateUser";
 import { validate } from "../middlewares/validate";
 import { updateProfileSchema } from "../../shared/validations/profile/profileValidation";
+import { KycDocumentSchema } from "../../shared/validations/kyc/KycDocumentValiadtion";
 
 @injectable()
 export class AccountRoutes extends BaseRoute {
@@ -13,6 +14,7 @@ export class AccountRoutes extends BaseRoute {
     }
     protected initRoute(): void {
         this.router
-            .patch("/updateProfile",authenticateUser,validate(updateProfileSchema),(req, res, next) => this.accountController.updateProfile(req,res,next))
+            .patch("/updateProfile", authenticateUser, validate(updateProfileSchema), (req, res, next) => this.accountController.updateProfile(req, res, next))
+            .post("/verifyKyc", authenticateUser, validate(KycDocumentSchema), (req, res, next) => this.accountController.)
     }
 }

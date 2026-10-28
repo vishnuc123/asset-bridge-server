@@ -10,6 +10,10 @@ export class UserDtos{
             roles:user.roles,
             activeRole:user.activeRole,
             status:user.status,
+            gender:user.gender,
+            nationality:user.nationality,
+            address:user.address,
+            dob:user.dob
             
         }
     }

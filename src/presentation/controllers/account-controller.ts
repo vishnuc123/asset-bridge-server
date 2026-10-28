@@ -22,4 +22,12 @@ export class AccountController {
             next(error)
         }
     }
+    async VerifyKyc(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const userId = req.user?.userId
+            const
+        } catch (error) {
+
+        }
+    }
 }

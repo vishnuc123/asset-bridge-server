@@ -50,20 +50,18 @@ export class GoogleLoginUseCase implements IGoogleLoginUseCase {
                 isBlocked: false,
                 password: await this.authService.hashPassword(Math.random().toString(36).slice(-8)),
                 roles: ["user", "investor", "vendor"],
-                gender:"",
-                nationality:"",
-                dob:"",
-                address:"",
+
             }
             user = await this.authRepository.create(newUser)
+
         } else {
             if (user.isBlocked || user.status === "banned") {
                 throw new AppError(AUTH_ERROR_MESSAGES.blocked, HttpStatusCode.BAD_REQUEST)
             }
-
+            
         }
-        const accessToken =await this.authService.generateAccessToken(user.id, user.roles, user.email, "user")
-        const refreashToken =await this.authService.generateRefreashToken(user.id, user.roles, user.email, "user")
+        const accessToken = await this.authService.generateAccessToken(user.id, user.roles, user.email, "user")
+        const refreashToken = await this.authService.generateRefreashToken(user.id, user.roles, user.email, "user")
         return { accessToken, refreashToken, user }
     }
 }
