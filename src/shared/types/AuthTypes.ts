@@ -40,3 +40,22 @@ export type TloginResponse = {
 }
 export type TRole = "user" | "admin" | "investor" | "vendor"
 export type TStatus = "active" | "banned" | "pending"
+
+export interface TGetUsers {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  roles: TRole[];
+  activeRole: TRole;
+  status: TStatus;
+  isVerified: boolean;
+  isBlocked: boolean;
+  kycStatus?: TKycStatus;
+  profileImage?: string;
+  gender:string,
+  dob:string|Date,
+  address:string,
+  nationality:string
+}
