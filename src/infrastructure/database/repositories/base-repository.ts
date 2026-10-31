@@ -18,7 +18,7 @@ export class BaseRepository<T extends Document> {
     findOne(filter: mongoose.QueryFilter<T>): mongoose.Query<T | null, T> {
         return this.model.findOne(filter);
     }
-    
+
     async update(id: string, update: mongoose.UpdateQuery<T>): Promise<T | null> {
         return this.model.findByIdAndUpdate(id, update, { new: true }).exec()
     }

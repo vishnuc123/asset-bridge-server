@@ -7,13 +7,14 @@ import { AppError } from "../../../shared/utils/AppError";
 import { HttpStatusCode } from "../../../shared/constants/HttpStatusCodes";
 import type { TGetUsers } from "../../../shared/types/AuthTypes";
 import { Mapper } from "../../../shared/utils/Mapper";
+import type { IPaginationResult } from "../../../shared/interfaces/sharedInterfaces";
 
 @injectable()
 export class GetUserUseCase implements IAdminUseCase {
     constructor(@inject(Tokens.authRepository) private authRepository: IAuthRepository) { }
-    async getUsers(): Promise<TGetUsers[] | null> {
-        const users = await this.authRepository.find({}).exec()
-        const mapped = Mapper.GetUserMapper(users)
-        return mapped
+    async getUsers(pageNumber: number, limit: number): Promise<IPaginationResult | null> {
+        const users = await this.authRepository.findAllUser(pageNumber, limit)
+        console.log("mapped allusers", users)
+        return users ?? null
     }
 }

@@ -30,6 +30,8 @@ export const Tokens = {
 
     accountUpdateUseCase:Symbol.for("accountUpdateUseCase"),
 
+
+    AdminRoutes:Symbol.for("adminRoutes"),
     AdminController:Symbol.for("adminController"),
     getUsersUseCase:Symbol.for("getUsersUseCase"),
 

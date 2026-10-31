@@ -9,6 +9,7 @@ import cors from "cors"
 import { env } from "../shared/constants/env";
 import { errorHandler } from "../presentation/middlewares/ErrorHandler";
 import type { AccountRoutes } from "../presentation/routes/account-routes";
+import type { AdminRoutes } from "../presentation/routes/admin-route";
 
 export class Settings {
     public App: Application
@@ -46,8 +47,10 @@ export class Settings {
     private setRoutes(): void {
         const userRoutes = container.get<AuthRoutes>(Tokens.authRoutes)
         const accountRoutes = container.get<AccountRoutes>(Tokens.AccountRoutes)
+        const adminRoutes = container.get<AdminRoutes>(Tokens.AdminRoutes)
         this.App.use("/api/v1/user", userRoutes.router)
         this.App.use("/api/v1/user/account",accountRoutes.router)
+        this.App.use("/api/v1/admin",adminRoutes.router)
     }
 
     public listen(port: number): void {

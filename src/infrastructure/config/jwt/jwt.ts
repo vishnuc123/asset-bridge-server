@@ -1,7 +1,7 @@
 export const jwtConfig = {
     accessToken: {
         expiresIn: "2m",
-        maxAge: 2*60* 1000 //1 * 60 * 1000
+        maxAge: 2*60* 1000
     },
     refreshToken: {
         expiresIn: "1d",

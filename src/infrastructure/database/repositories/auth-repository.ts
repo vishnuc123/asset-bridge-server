@@ -1,5 +1,6 @@
 import type { IUser } from "../../../core/models/user-models";
 import type { IAuthRepository } from "../../../core/repositories/Iauth-repository";
+import type { IPaginationResult } from "../../../shared/interfaces/sharedInterfaces";
 import type { TUserResponse } from "../../../shared/types/AuthTypes";
 import { Mapper } from "../../../shared/utils/Mapper";
 
@@ -21,10 +22,22 @@ export class AuthRepository extends BaseRepository<IUserDocument> implements IAu
         return data ? Mapper.UserMapper(data as IUserDocument) : null;
     }
     async updateUserById(userId: string, updateData: Partial<IUser>): Promise<TUserResponse | null> {
-        const data = await this.model.findByIdAndUpdate(userId, updateData, { returnDocument:"after" })
+        const data = await this.model.findByIdAndUpdate(userId, updateData, { returnDocument: "after" })
         return data
             ? Mapper.UserMapper(data as IUserDocument)
             : null
+    }
+
+    async findAllUser(pageNumber: number, Limit: number): Promise<IPaginationResult | null> {
+        const skipLogic = (pageNumber - 1) * Limit
+        const data = await this.model.find().skip(skipLogic).limit(Limit)
+        const totalDocuments = await this.model.countDocuments()
+        const mapped = Mapper.GetUserMapper(data)
+        return mapped ? {
+            userDetails: mapped, pageDetails: {
+                totalDocuments, page: pageNumber, limit: Limit, totalPages: Math.ceil(totalDocuments / Limit)
+            }
+        } : null;
     }
 
 }

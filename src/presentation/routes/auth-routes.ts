@@ -22,7 +22,7 @@ export class AuthRoutes extends BaseRoute {
             .post("/resend-otp",(req,res,next) => this.authcontroller.ResendOtp(req,res,next))
             .post('/logout', authenticateUser, (req, res, next) => this.authcontroller.Logout(req, res, next))
             .post('/reset-password', (req, res, next) => this.authcontroller.ResetPassword(req, res, next))
-            .post('/switch-role', authenticateUser, authorizeRoles("user","investor","vendor"), (req, res, next) => this.authcontroller.switchRole(req, res, next))
+            .post('/switch-role', authenticateUser, authorizeRoles("user","investor","vendor","admin"), (req, res, next) => this.authcontroller.switchRole(req, res, next))
             .get("/refresh",(req, res, next) => this.authcontroller.Refreash(req, res, next))
     }
 

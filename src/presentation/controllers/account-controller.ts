@@ -40,12 +40,7 @@ export class AccountController {
     async confirmUpload(req: Request,res: Response,next: NextFunction): Promise<void> {
         try {
             const userId = req.user?.userId as string
-            const result = await this.KycStorageUseCase.confirmUpload(
-                userId,
-                req.body
-            );
-
-            ResponseHandler.success(res,"kyc document submitted successfully",result,HttpStatusCode.OK)
+           
         } catch (error) {
             next(error);
         }

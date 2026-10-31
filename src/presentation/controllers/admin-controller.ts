@@ -11,8 +11,13 @@ export class AdminController {
     constructor(@inject(Tokens.getUsersUseCase) private getUsersUseCase: IAdminUseCase) { }
     async getUsers(req: Request, res: Response, next: NextFunction) {
         try {
-            const users = await this.getUsersUseCase.getUsers()
-            ResponseHandler.success(res,"users fetched successfully",users,HttpStatusCode.OK)
+            console.log("getusercontroller")
+            console.log("userparams",req.query)
+            const PageNumber = Number(req.query.page) || 1
+            const Limit = Number(req.query.limit) || 10
+            
+            const allUsers = await this.getUsersUseCase.getUsers(PageNumber,Limit)
+            ResponseHandler.success(res,"users fetched successfully",allUsers,HttpStatusCode.OK)
         } catch (error) {
             next(error)
         }
