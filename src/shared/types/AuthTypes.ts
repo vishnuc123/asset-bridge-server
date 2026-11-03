@@ -59,3 +59,10 @@ export interface TGetUsers {
   address:string,
   nationality:string
 }
+
+export interface IFilterData{
+    search?:string,
+    status?:string,
+    category?:string,
+    sortBy?:string
+}
